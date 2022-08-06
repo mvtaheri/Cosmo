@@ -23,10 +23,32 @@ foreach($items as $item){
 // validate two input [number,language]
 
 if(isset($_REQUEST['number'] && $_REQUEST['language'])){
+      $input_number=intval($_GET['number']);
+      $input_language=trim($_GET['language']);
+      //validate language to be in items list
+       foreach ($items as $item) {
+          [$locale, $timezone] = $item;
+          if ($locale == $input_language) {
+              $cosmo=new Cosmo($locale,['timezone'=>$timezone]);
+               $language = $cosmo->language();
+               $country = $cosmo->country();
+               $spellout=$cosmo->spellout($input_number);
+               $flag = $cosmo->flag(); // emoji flag of the country
+             ?>
+        <h2>
+            <strong>flag</strong>-<strong>country</strong>-<strong>language</strong>-<strong>spellout</strong>
+        </h2>   
+        <p> 
+            <?php echo $flag .'-'.$country.'-'.$language.'-'.$spellout;
+               PHP_EOL;
+             ?>
+        </p>
+             <?php
 
-}
-$number=$_GET['number'] ;
-$language=$_GET['language'];
+             }
+      }
+   }
+
 foreach ($items as $item) {
 
     [$locale, $timezone] = $item;
