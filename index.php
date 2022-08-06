@@ -14,6 +14,19 @@ $items = [
     ['ar_EG', 'Africa/Cairo'],
 ];
 
+echo "Select from below this  languages";
+foreach($items as $item){
+    echo $item[0];
+    echo "\n";
+}
+
+// validate two input [number,language]
+
+if(isset($_REQUEST['number'] && $_REQUEST['language'])){
+
+}
+$number=$_GET['number'] ;
+$language=$_GET['language'];
 foreach ($items as $item) {
 
     [$locale, $timezone] = $item;
