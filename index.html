@@ -2,28 +2,57 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>Cosmo </title>
 </head>
 <body>
-	<form action="convert.php" method="GET">
 
-<input type="text" name="formMovie" maxlength="50">
-
-<input type="submit" name="formSubmit" value="Submit">
-</form>
+	<h2>Select Language From Below List:</h2>
+	 <p class="item">en_AU</p>
+	 <p class="item">en_GB</p>
+	 <p class="item">de_DE</p>
+	 <p class="item">zh_CN</p>
+	 <p class="item">fa_IR</p>
+	 <p class="item">hi_IN</p>
+ <form id="spelling_form"  action="#" method="GET">
+	<label>number to spell:</label>
+	<input type="text" id="number" name="number" >
+	<label>language:</label>
+	<input type="text" id="language" name="language">
+	<input type="submit"  name="formSubmit" value="Submit">
+  </form>
 <script type="text/javascript">
-    function submit() {
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                alert(xhr.response);
-            }
-        }
-        xhr.open('get', '', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-        xhr.send();
-    }
 
+const form = document.getElementById('spelling_form'); 
+form.addEventListener('submit', function(e) {
+     e.preventDefault();
+     $number=document.getElementById("number").value;
+     $language= document.getElementById("language").value;
+     const xhr = new XMLHttpRequest();
+    $uri_base="localhost:8080/convert?number="+$number+"&&language="+$language;
+	xhr.open("GET", $uri_base);
+	xhr.send();
+	
+	xhr.onload = function() {
+      if (xhr.status === 200) {
+       data = JSON.parse(xhr.responseText)
+         
+  	  } else if (xhr.status === 404) {
+    		console.log("No records found")
+        }
+     }
+
+//triggered when a network-level error occurs with the request
+xhr.onerror = function() {
+  console.log("Network error occurred")
+xhr.onprogress = function(e) {
+  if (e.lengthComputable) {
+    console.log(`${e.loaded} B of ${e.total} B loaded!`)
+  } else {
+    console.log(`${e.loaded} B loaded!`)
+  }
+}
+}
+});
 </script>
 </body>
 </html>
