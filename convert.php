@@ -22,8 +22,7 @@ foreach($items as $item){
 
 // validate two input [number,language]
 
-if(isset($_REQUEST['number'] && $_REQUEST['l
-         thisanguage'])){
+if(isset($_REQUEST['number'] && $_REQUEST['language'])){
       $input_number=intval($_GET['number']);
       $input_language=trim($_GET['language']);
       //validate language to be in items list
@@ -35,19 +34,11 @@ if(isset($_REQUEST['number'] && $_REQUEST['l
                $country = $cosmo->country();
                $spellout=$cosmo->spellout($input_number);
                $flag = $cosmo->flag(); // emoji flag of the country
-             ?>
-        <h2>
-            <strong>flag</strong>-<strong>country</strong>-<strong>language</strong>-<strong>spellout</strong>
-        </h2>   
-        <p> 
-            <?php echo $flag .'-'.$country.'-'.$language.'-'.$spellout;
-               PHP_EOL;
-             ?>
-        </p>
-             <?php
-
+               header('Content-Type: application/json; charset=utf-8');
+                echo json_encode($spellout);
              }
       }
    }
-
 }
+}
+?>
