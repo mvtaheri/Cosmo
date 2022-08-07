@@ -5,9 +5,9 @@ $base_uri=$uri[0];
  
 switch ($base_uri) {
     case '':
-       echo "";
+       require __DIR__.'/index.html';
     case '/':
-        echo "/";
+        require __DIR__.'/index.html';
         break;
 
     case '/convert':
