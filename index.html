@@ -6,36 +6,55 @@
 </head>
 <body>
 
-	<h2>Select Language From Below List:</h2>
-	 <p class="item">en_AU</p>
-	 <p class="item">en_GB</p>
-	 <p class="item">de_DE</p>
-	 <p class="item">zh_CN</p>
-	 <p class="item">fa_IR</p>
-	 <p class="item">hi_IN</p>
  <form id="spelling_form"  action="#" method="GET">
 	<label>number to spell:</label>
 	<input type="text" id="number" name="number" >
-	<label>language:</label>
-	<input type="text" id="language" name="language">
+<label >language:</label>
+
+<select name="language" id="language">
+  <option value="en_AU">en_AU</option>
+  <option value="en_GB">en_GB</option>
+  <option value="de_DE">de_DE</option>
+  <option value="zh_CN">zh_CN</option>
+  <option value="fa_IR">fa_IR</option>
+  <option value="hi_IN">hi_IN</option>
+</select>
+
 	<input type="submit"  name="formSubmit" value="Submit">
   </form>
+  <p>the result is:</p>
+  <p id="result"></p>
 <script type="text/javascript">
 
 const form = document.getElementById('spelling_form'); 
 form.addEventListener('submit', function(e) {
      e.preventDefault();
-     $number=document.getElementById("number").value;
-     $language= document.getElementById("language").value;
+     var number=document.getElementById("number").value;
+     var language= document.getElementById("language").value;
+     console.log('number'+number+'Language'+language);
      const xhr = new XMLHttpRequest();
-    $uri_base="localhost:8080/convert?number="+$number+"&&language="+$language;
-	xhr.open("GET", $uri_base);
+     xhr.onreadystatechange = function () {
+       if (this.readyState == 4 && this.status == 200) {
+       console.log(xhttp.responseText);
+       } else {
+         console.log("error")
+       }
+      };
+    $uri_base="localhost:8080/convert?number="+number+"&&language="+language;
+	xhr.open("GET", $uri_base,true);
+	xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+	xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
+	xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+	xhr.setRequestHeader('Access-Control-Allow-Credentials' ,true);
+	xhr.setRequestHeader('Content-Type', "application/json");
+	xhr.setRequestHeader('Accept', "application/json");
 	xhr.send();
 	
 	xhr.onload = function() {
       if (xhr.status === 200) {
-       data = JSON.parse(xhr.responseText)
-         
+       data = JSON.parse(xhr.responseText);
+       document.getElementById('');
+        console.log(data);
   	  } else if (xhr.status === 404) {
     		console.log("No records found")
         }
