@@ -17,7 +17,7 @@ $items = [
 // validate two input [number,language]
 
 if($_SERVER["REQUEST_METHOD"] == "GET"
- && isset($_REQUEST['number'] 
+ && isset($_REQUEST['number'] )
  && isset($_REQUEST['language'])
 ){
       $input_number=intval($_GET['number']);
@@ -42,5 +42,4 @@ if($_SERVER["REQUEST_METHOD"] == "GET"
              }
       }
    }
-
-}
+?>
