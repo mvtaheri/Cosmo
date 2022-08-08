@@ -3,6 +3,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Cosmo </title>
+  <link rel="stylesheet" type="text/css" href="asset/style.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <style>
     *{
       padding: 0px;
@@ -41,7 +43,7 @@
            background-color: #177a8a;
          }
          .result-container{
-           
+            
          }
   </style>
 </head>
@@ -68,56 +70,32 @@
 	   <input type="submit" class="button"  name="formSubmit" value="Submit"/>
   </form>
   </div>
-  <div class="result-container">
-    <p>this is result section</p>
+  <div id="info" class="result-container">
   </div>
 </section>
 <script type="text/javascript">
-
-const form = document.getElementById('spelling_form'); 
-form.addEventListener('submit', function(e) {
-     e.preventDefault();
-     var number=document.getElementById("number").value;
-     var language= document.getElementById("language").value;
-     const xhr = new XMLHttpRequest();
-     xhr.onreadystatechange = function () {
-       if (this.readyState == 4 && this.status == 200) {
-       console.log(xhttp.responseText);
-       } else {
-         console.log("error")
-       }
-      };
-    $uri_base="localhost:8080/convert?number="+number+"&&language="+language;
-	xhr.open("GET", $uri_base,true);
-	xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-	xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
-	xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-	xhr.setRequestHeader('Access-Control-Allow-Credentials' ,true);
-	xhr.setRequestHeader('Content-Type', "application/json");
-	xhr.setRequestHeader('Accept', "application/json");
-	xhr.send();
-	
-	xhr.onload = function() {
-      if (xhr.status === 200) {
-       data = JSON.parse(xhr.responseText);
-       document.getElementById('');
-        console.log(data);
-  	  } else if (xhr.status === 404) {
-    		console.log("No records found")
-        }
-     }
-
-//triggered when a network-level error occurs with the request
-xhr.onerror = function() {
-  console.log("Network error occurred")
-xhr.onprogress = function(e) {
-  if (e.lengthComputable) {
-    console.log(`${e.loaded} B of ${e.total} B loaded!`)
-  } else {
-    console.log(`${e.loaded} B loaded!`)
-  }
-}
-}
+$(document).ready(function() {
+$('#spelling_form').submit(function(e){
+   e.preventDefault();
+   $.ajax({
+     url: "localhost:8080/convert",
+     data: $(this).serialize(),
+  error: function(  request,status,errorThrown) {
+     alert('Request Status: ' + request.status + ' Status Text: ' 
+      + request.statusText + ' ' + request.responseText);
+    $('#info').html('<p>An error has occurred</p>');
+  },
+  success: function(data) {
+     var jsonData = JSON.parse(data);
+      var $spellout = $('<p>').text(jsonData.spellout);
+      var $language = $('<p>').text(jsonData.language);
+    $('#info')
+    .append($spellout)
+    .append($language);
+  },
+  type: 'GET'
+  });
+});
 });
 </script>
 </body>
