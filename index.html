@@ -3,27 +3,75 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Cosmo </title>
+  <style>
+    *{
+      padding: 0px;
+      margin: 0px;
+      box-sizing: border-box;
+    }
+    .container{
+          display: gride;
+          grid-template-columns: 1fr;
+          grid-template-rows: 1fr 1fr;
+    }
+    .form-container{
+          width: 600px;
+          margin:10px auto;
+          padding: 50px 25px;
+          background-color: #bcf7cc;
+          border: 2px solid #39403b;
+        }
+        select , input {
+          width: 100%;
+          padding:10px;
+          border-radius:10px;
+          margin: 10px;
+         }
+         label{
+          text-transform: uppercase;
+          font-size: 1em;
+          font-weight: bold;
+          padding: 10px;
+          margin: 10px;
+         }
+         .button{
+          background-color: #7fb7fa;
+         }
+         .button:hover{
+           background-color: #177a8a;
+         }
+         .result-container{
+           
+         }
+  </style>
 </head>
 <body>
+<section class="container">
+  <div class="form-container">
+  <form id="spelling_form"  action="#" method="GET">
+     <div> 
+  	  <label>number:</label>
+	    <input type="text" id="number" placeholder="Enter number" name="number" required >
+     </div>
+     <div>
+       <label >language:</label>
 
- <form id="spelling_form"  action="#" method="GET">
-	<label>number to spell:</label>
-	<input type="text" id="number" name="number" >
-<label >language:</label>
-
-<select name="language" id="language">
-  <option value="en_AU">en_AU</option>
-  <option value="en_GB">en_GB</option>
-  <option value="de_DE">de_DE</option>
-  <option value="zh_CN">zh_CN</option>
-  <option value="fa_IR">fa_IR</option>
-  <option value="hi_IN">hi_IN</option>
-</select>
-
-	<input type="submit"  name="formSubmit" value="Submit">
+        <select name="language" id="language" required>
+          <option value="en_AU">en_AU</option>
+          <option value="en_GB">en_GB</option>
+          <option value="de_DE">de_DE</option>
+          <option value="zh_CN">zh_CN</option>
+          <option value="fa_IR">fa_IR</option>
+          <option value="hi_IN">hi_IN</option>
+        </select>
+   </div>
+	   <input type="submit" class="button"  name="formSubmit" value="Submit"/>
   </form>
-  <p>the result is:</p>
-  <p id="result"></p>
+  </div>
+  <div class="result-container">
+    <p>this is result section</p>
+  </div>
+</section>
 <script type="text/javascript">
 
 const form = document.getElementById('spelling_form'); 
@@ -31,7 +79,6 @@ form.addEventListener('submit', function(e) {
      e.preventDefault();
      var number=document.getElementById("number").value;
      var language= document.getElementById("language").value;
-     console.log('number'+number+'Language'+language);
      const xhr = new XMLHttpRequest();
      xhr.onreadystatechange = function () {
        if (this.readyState == 4 && this.status == 200) {
