@@ -1,6 +1,9 @@
 Header set Access-Control-Allow-Origin "*"
 RewriteEngine On
+RewriteRule \.(css|js|png|jpg|gif)$ - [L]
+RewriteCond %{REQUEST_URI} !(asset|css)
+RewriteCond %{REQUEST_URI} !(\.css|\.ico|\.js|\.png|\.jpg|\.gif|robots\.txt)$ [P,NC]
 RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.+)$ index.php [QSA,L]
+RewriteRule ^(.*)$ index.php?params=$1 [L,QSA]
