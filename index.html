@@ -1,8 +1,15 @@
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Cosmo </title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosmo </title>
+  <!-- <script src="vue.js" ></script> -->
+ <!--  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script> -->
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosmo </title>
   <link rel="stylesheet" type="text/css" href="asset/style.css">
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <style>
@@ -48,12 +55,12 @@
   </style>
 </head>
 <body>
-<section class="container">
+<section id="app" class="container">
   <div class="form-container">
   <form id="spelling_form"  action="#" method="GET">
      <div> 
-  	  <label>number:</label>
-	    <input type="text" id="number" placeholder="Enter number" name="number" required >
+      <label>number:</label>
+      <input type="text" id="number" placeholder="Enter number" name="number" required >
      </div>
      <div>
        <label >language:</label>
@@ -67,12 +74,46 @@
           <option value="hi_IN">hi_IN</option>
         </select>
    </div>
-	   <input type="submit" class="button"  name="formSubmit" value="Submit"/>
+     <input type="submit" class="button"  name="formSubmit" value="Submit"/>
   </form>
   </div>
   <div id="info" class="result-container">
   </div>
 </section>
+<!-- <script src="<https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js>"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+ <script>
+   new Vue({
+    el:"#app",
+     data () {
+        return {
+      info: null
+    }
+  },
+     mounted () {
+
+       axios
+        .get('https://api.coindesk.com/v1/bpi/currentprice.json')
+          .then(response => (this.info = response));
+
+       async function getUser() {
+      try {
+      const axios = require('axios').default;
+      const response = await axios.get('localhost:8080/convert',{
+          params: {
+          number:12000000,
+          language:fa_IR
+        }
+      });
+      
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    }
+    });
+ </script>
+=======
 <script type="text/javascript">
 $(document).ready(function() {
 $('#spelling_form').submit(function(e){
