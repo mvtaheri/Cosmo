@@ -74,6 +74,12 @@
   </form>
   </div>
   <div id="info" class="result-container">
+    <p>
+      <strong>country:</strong><span>{{country}}-{{flag}}</span></p>
+    <p>
+        <strong>Spell:</strong><span>{{spellout}}</span>
+        <strong>Number:</strong><span>{{number}}</span>
+    </p>
   </div>
 </section>
 <!-- <script src="<https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js>"></script> -->
@@ -101,7 +107,6 @@
      methods: {
       submit: function (event) {
         event.preventDefault();
-        this.country='iran'
         axios.get("http://localhost:8080/convert",{
         headers: {
              'Access-Control-Allow-Origin': "*",
@@ -113,12 +118,11 @@
       }
      })
       .then(response => {
-        console.log(response.data.country);
+        this.country= response.data.country
         this.spellout=response.data.spellout;
         this.flag=response.data.flag;
-        this.country= response.data.country;
-      })
-       .catch(function (error) {
+        
+      }).catch(function (error) {
         if (error.response) {
           this.errorMessage=error.response.data.message;
           console.log('data: '.error.response.data);
