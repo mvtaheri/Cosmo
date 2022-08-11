@@ -1,6 +1,6 @@
 <?php
-namespace App;
 
+namespace App;
 use Salarmehr\Cosmopolitan\Cosmo;
 
 $items = [
@@ -35,13 +35,15 @@ if($_SERVER["REQUEST_METHOD"] == "GET"
                     'country'=>$country,
                     'flag'=>$flag,
                    'spellout'=>$spellout
-               ]; // emoji flag of the country
+               ]; 
+
                header('Content-Type: application/json; charset=utf-8');
                echo json_encode($data);
              }
       }
-   }else {
-       http_response_code(404);
-          echo "404";
+   }else { 
+      $data=['message'=>'invalid data input'];
+       header('Content-Type: application/json; charset=utf-8');
+       echo json_encode($data);
    }
 ?>
