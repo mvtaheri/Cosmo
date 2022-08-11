@@ -60,12 +60,12 @@
   <form id="spelling_form"  action="#" method="GET">
      <div> 
       <label>number:</label>
-      <input type="text" id="number" placeholder="Enter number" name="number" required >
+      <input type="text" id="number" v-model="number" placeholder="Enter number" name="number" required >
      </div>
      <div>
        <label >language:</label>
 
-        <select name="language" id="language" required>
+        <select name="language" id="language"  v-model="language" required>
           <option value="en_AU">en_AU</option>
           <option value="en_GB">en_GB</option>
           <option value="de_DE">de_DE</option>
@@ -74,7 +74,7 @@
           <option value="hi_IN">hi_IN</option>
         </select>
    </div>
-     <input type="submit" class="button"  name="formSubmit" value="Submit"/>
+     <input type="submit" class="button"  @click="submit" name="formSubmit" value="Submit"/>
   </form>
   </div>
   <div id="info" class="result-container">
@@ -82,62 +82,42 @@
 </section>
 <!-- <script src="<https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js>"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+  <script 
+  src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"
+  > </script>
  <script>
+
    new Vue({
     el:"#app",
      data () {
         return {
-      info: null
+           number:'',
+           language:''
     }
-  },
+    },
      mounted () {
-
-       axios
-        .get('https://api.coindesk.com/v1/bpi/currentprice.json')
-          .then(response => (this.info = response));
-
-       async function getUser() {
-      try {
-      const axios = require('axios').default;
-      const response = await axios.get('localhost:8080/convert',{
-          params: {
-          number:12000000,
-          language:fa_IR
-        }
-      });
-      
-      } catch (error) {
-        console.error(error);
+           console.log('this is mounted');
+       
+    },
+     methods: {
+      submit: function (event) {
+        event.preventDefault();
+        console.table(this.number);
+     axios.get("http://localhost:8080/convert",{
+      params:{
+        number:this.number,
+        language: this.language
       }
+     })
+      .then(response => console.log(response.data))
+      .catch(error => {
+        this.errorMessage = error.message;
+        console.error("There was an error!", error);
+     });
     }
-    }
+   }
     });
  </script>
-=======
-<script type="text/javascript">
-$(document).ready(function() {
-$('#spelling_form').submit(function(e){
-   e.preventDefault();
-   $.ajax({
-     url: "localhost:8080/convert",
-     data: $(this).serialize(),
-  error: function(  request,status,errorThrown) {
-     alert('Request Status: ' + request.status + ' Status Text: ' 
-      + request.statusText + ' ' + request.responseText);
-    $('#info').html('<p>An error has occurred</p>');
-  },
-  success: function(data) {
-     var jsonData = JSON.parse(data);
-      var $spellout = $('<p>').text(jsonData.spellout);
-      var $language = $('<p>').text(jsonData.language);
-    $('#info')
-    .append($spellout)
-    .append($language);
-  },
-  type: 'GET'
-  });
-});
-});
 </script>
 </body>
 </html>
