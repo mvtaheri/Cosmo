@@ -19,7 +19,8 @@ switch ($base_uri) {
     case '/convert':
         require __DIR__.'/src/convert.php';
         break;
-
+   case '/getData':
+          require __DIR__ .'/src/convert.php';
     default:
         http_response_code(404);
           echo "404";
