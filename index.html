@@ -4,14 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cosmo </title>
-  <!-- <script src="vue.js" ></script> -->
- <!--  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script> -->
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cosmo </title>
-  <link rel="stylesheet" type="text/css" href="asset/style.css">
-  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <style>
     *{
       padding: 0px;
@@ -66,6 +61,7 @@
        <label >language:</label>
 
         <select name="language" id="language"  v-model="language" required>
+        <option value="" selected disabled hidden>Select language</option>
           <option value="en_AU">en_AU</option>
           <option value="en_GB">en_GB</option>
           <option value="de_DE">de_DE</option>
@@ -92,28 +88,50 @@
      data () {
         return {
            number:'',
-           language:''
+           language:'',
+           errorMessage:'',
+           spellout:'',
+           country:'',
+           flag:''
     }
     },
      mounted () {
-           console.log('this is mounted');
        
     },
      methods: {
       submit: function (event) {
         event.preventDefault();
-        console.table(this.number);
-     axios.get("http://localhost:8080/convert",{
+        this.country='iran'
+        axios.get("http://localhost:8080/convert",{
+        headers: {
+             'Access-Control-Allow-Origin': "*",
+             "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT"
+     },
       params:{
         number:this.number,
         language: this.language
       }
      })
-      .then(response => console.log(response.data))
-      .catch(error => {
-        this.errorMessage = error.message;
-        console.error("There was an error!", error);
-     });
+      .then(response => {
+        console.log(response.data.country);
+        this.spellout=response.data.spellout;
+        this.flag=response.data.flag;
+        this.country= response.data.country;
+      })
+       .catch(function (error) {
+        if (error.response) {
+          this.errorMessage=error.response.data.message;
+          console.log('data: '.error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+    } else if (error.request) {
+
+      console.log('request error: '.error.request);
+    } else {
+      console.log('Error', error.message);
+    }
+      console.log(error.config);
+    });
     }
    }
     });

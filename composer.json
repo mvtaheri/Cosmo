@@ -5,7 +5,6 @@
     }
    },
     "require": {
-        "salarmehr/cosmopolitan": "^1.1",
-        "phpunit/php-timer": "^2.1"
+        "salarmehr/cosmopolitan": "^1.1"
     }
 }

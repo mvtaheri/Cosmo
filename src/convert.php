@@ -42,7 +42,8 @@ if($_SERVER["REQUEST_METHOD"] == "GET"
              }
       }
    }else { 
-      $data=['message'=>'invalid data input'];
+       http_response_code(301);
+       $data=['message'=>'invalid data input'];
        header('Content-Type: application/json; charset=utf-8');
        echo json_encode($data);
    }
